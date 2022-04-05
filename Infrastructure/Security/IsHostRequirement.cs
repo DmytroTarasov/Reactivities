@@ -34,7 +34,7 @@ namespace Infrastructure.Security
             // and then parse it to the 'Guid' type
             var activityId = Guid.Parse(
                 _httpContextAccessor.HttpContext?.Request.RouteValues.SingleOrDefault(x => x.Key == "id")
-                .Value?.ToString());
+                .Value?.ToString()!);
             
             // here, we use .Result because we cannot use 'await' inside this method 
             // (we implement an abstract class 'AuthorizationHandler' and this method returns a Task (not async Task))
