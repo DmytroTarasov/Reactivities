@@ -23,7 +23,11 @@ namespace API.Extensions
             });
             services.AddCors(opt => {
                 opt.AddPolicy("CorsPolicy", policy => {
-                    policy.AllowAnyMethod().AllowAnyHeader().WithOrigins("http://localhost:3000");
+                    policy
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .WithOrigins("http://localhost:3000");
                 });
             });
             // tells the mediator where to find handlers
@@ -38,6 +42,9 @@ namespace API.Extensions
             // Then we created a strongly typed class - CloudinarySettings and here we configure things
             // in the IOC-container to be able to access that info in the CloudinarySettings class
             services.Configure<CloudinarySettings>(config.GetSection("Cloudinary"));
+
+            services.AddSignalR(); // to implement a feature - live commenting (so that other users 
+            // that are currently logged in) will receive our comment immediately 
 
             return services;
         }    

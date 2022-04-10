@@ -1,14 +1,10 @@
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Application.Activities;
-using Application.Core;
 using FluentValidation.AspNetCore;
-using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
-using Persistence;
 
 namespace API
 {
@@ -61,6 +57,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/chat");
             });
         }
     }

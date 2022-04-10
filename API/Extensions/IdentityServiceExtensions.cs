@@ -30,6 +30,20 @@ namespace API.Extensions
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+                    // adding an authentication to a SignalR
+                    opt.Events = new JwtBearerEvents {
+                        OnMessageReceived = context => {
+                            // client will send a token 
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+                            // check if token exists and if request path matches '/chat' - our
+                            // SignalR Hub endpoint
+                            if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chat")) {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             // create a policy (so the user can edit an activity only if he is a host of that activity)
