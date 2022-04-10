@@ -83,6 +83,7 @@ const Account = {
 
 const Profiles = {
     get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
+    update: (profile: Partial<Profile>) => requests.put<void>('/profiles', profile),
     uploadPhoto: (file: Blob) => {
         let formData = new FormData();
         // 'File' needs to match the property inside Application/Photos/Add.cs Command class
