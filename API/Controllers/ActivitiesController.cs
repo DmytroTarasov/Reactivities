@@ -1,4 +1,5 @@
 using Application.Activities;
+using Application.Core;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -7,10 +8,11 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
+        // ActivityParams - we have created this class that actually holds an info about how to filter activities list
         [HttpGet]
-        public async Task<IActionResult> GetActivities() {
+        public async Task<IActionResult> GetActivities([FromQuery] ActivityParams param) {
             // send a request to a single handler
-            return HandleResult(await Mediator.Send(new List.Query()));
+            return HandlePagedResult(await Mediator.Send(new List.Query{Params = param}));
         }
 
         [HttpGet("{id}")]
